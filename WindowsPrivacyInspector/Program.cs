@@ -128,14 +128,14 @@ class Program
         var key = Console.ReadKey();
         Console.WriteLine();
 
-        var mode = key.KeyChar switch
+        PrivacyManager.LockdownMode? mode = key.KeyChar switch
         {
             '1' => PrivacyManager.LockdownMode.Full,
             '2' => PrivacyManager.LockdownMode.Camera,
             '3' => PrivacyManager.LockdownMode.Microphone,
             '4' => PrivacyManager.LockdownMode.Files,
             '5' => PrivacyManager.LockdownMode.None,
-            _ => null
+            _ => (PrivacyManager.LockdownMode?)null
         };
 
         if (mode.HasValue)

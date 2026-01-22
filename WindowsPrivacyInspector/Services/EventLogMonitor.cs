@@ -141,11 +141,11 @@ public class EventLogMonitor
             }
 
             // Check for suspicious behavior
-            bool isSuspicious = CheckSuspiciousBehavior(processName, timeCreated);
+            bool isSuspicious = CheckSuspiciousBehavior(processName, (DateTime?)timeCreated);
 
             return new AccessEvent
             {
-                Timestamp = timeCreated.Value,
+                Timestamp = timeCreated,
                 ApplicationName = processName,
                 ProcessId = processId,
                 ResourceType = resourceType,
