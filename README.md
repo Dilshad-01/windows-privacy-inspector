@@ -28,29 +28,19 @@ A comprehensive Windows privacy monitoring tool that helps you track and control
 ```bash
 git clone https://github.com/Dilshad-01/windows-privacy-inspector.git
 cd windows-privacy-inspector
+cd WindowsPrivacyInspector
 ```
 
 2. Build the project:
 ```bash
-dotnet build WindowsPrivacyInspector/WindowsPrivacyInspector.csproj
-```
-
-   Or navigate to the project directory:
-```bash
-cd WindowsPrivacyInspector
-dotnet build
+dotnet build WindowsPrivacyInspector.csproj
 ```
 
 3. Run the application (requires administrator privileges):
 ```bash
-dotnet run --project WindowsPrivacyInspector/WindowsPrivacyInspector.csproj
+dotnet run --project WindowsPrivacyInspector.csproj
 ```
 
-   Or from the project directory:
-```bash
-cd WindowsPrivacyInspector
-dotnet run
-```
 
 ## Usage
 
