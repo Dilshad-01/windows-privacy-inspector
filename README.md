@@ -63,7 +63,10 @@ The application will alert you when:
 
 ## Workflow Diagram
 
-For a detailed visual representation of the system architecture, data flow, and component interactions, see [WORKFLOW.md](WORKFLOW.md).
+For a detailed visual representation of the system architecture, data flow, and component interactions:
+
+- **Draw.io File**: [WorkflowDiagrams.drawio](WorkflowDiagrams.drawio) - Open this file in [draw.io](https://app.diagrams.net/) or [diagrams.net](https://diagrams.net/) to view and edit the diagrams
+- **Markdown Version**: [WORKFLOW.md](WORKFLOW.md) - Mermaid diagrams (renders on GitHub)
 
 The workflow diagrams include:
 - System Architecture Flow
