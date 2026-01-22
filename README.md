@@ -32,12 +32,24 @@ cd windows-privacy-inspector
 
 2. Build the project:
 ```bash
+dotnet build WindowsPrivacyInspector/WindowsPrivacyInspector.csproj
+```
+
+   Or navigate to the project directory:
+```bash
+cd WindowsPrivacyInspector
 dotnet build
 ```
 
 3. Run the application (requires administrator privileges):
 ```bash
-dotnet run --project WindowsPrivacyInspector
+dotnet run --project WindowsPrivacyInspector/WindowsPrivacyInspector.csproj
+```
+
+   Or from the project directory:
+```bash
+cd WindowsPrivacyInspector
+dotnet run
 ```
 
 ## Usage
