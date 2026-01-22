@@ -6,6 +6,7 @@ namespace WindowsPrivacyInspector;
 class Program
 {
     private static EventLogMonitor? _eventMonitor;
+    private static ResourceMonitor? _resourceMonitor;
     private static PrivacyManager? _privacyManager;
     private static AlertService? _alertService;
 
@@ -64,10 +65,11 @@ class Program
     static void InitializeServices()
     {
         _eventMonitor = new EventLogMonitor();
+        _resourceMonitor = new ResourceMonitor();
         _privacyManager = new PrivacyManager();
         _alertService = new AlertService();
 
-        // Wire up events
+        // Wire up EventLogMonitor events (for file access)
         _eventMonitor.AccessDetected += (sender, e) =>
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -80,6 +82,19 @@ class Program
             _alertService?.ProcessEvent(e);
         };
 
+        // Wire up ResourceMonitor events (for camera/mic access)
+        _resourceMonitor.AccessDetected += (sender, e) =>
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"[{e.Timestamp:HH:mm:ss}] {e.ApplicationName} accessed {e.ResourceType}");
+            Console.ResetColor();
+        };
+
+        _resourceMonitor.SuspiciousActivityDetected += (sender, e) =>
+        {
+            _alertService?.ProcessEvent(e);
+        };
+
         _alertService!.AlertTriggered += (sender, e) =>
         {
             // Alert is already displayed by AlertService
@@ -88,10 +103,20 @@ class Program
         try
         {
             _eventMonitor.StartMonitoring();
+            Console.WriteLine("Event log monitoring started (for file access)...");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error starting monitoring: {ex.Message}");
+            Console.WriteLine($"Error starting event log monitoring: {ex.Message}");
+        }
+
+        try
+        {
+            _resourceMonitor.StartMonitoring();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error starting resource monitoring: {ex.Message}");
         }
     }
 
@@ -173,12 +198,30 @@ class Program
         Console.WriteLine("Recent Access Events (Last Hour):");
         Console.WriteLine("----------------------------------");
 
-        var recentEvents = _eventMonitor?.GetRecentEvents(60);
-        if (recentEvents != null && recentEvents.Any())
+        var eventLogEvents = _eventMonitor?.GetRecentEvents(60) ?? new List<AccessEvent>();
+        var resourceEvents = _resourceMonitor?.GetRecentEvents(60) ?? new List<AccessEvent>();
+        
+        // Combine events from both monitors
+        var allEvents = eventLogEvents.Concat(resourceEvents)
+            .OrderByDescending(e => e.Timestamp)
+            .Take(20)
+            .ToList();
+
+        if (allEvents.Any())
         {
-            foreach (var evt in recentEvents.Take(10))
+            foreach (var evt in allEvents)
             {
+                var color = evt.ResourceType switch
+                {
+                    ResourceType.Camera => ConsoleColor.Yellow,
+                    ResourceType.Microphone => ConsoleColor.Magenta,
+                    ResourceType.Files => ConsoleColor.Cyan,
+                    _ => ConsoleColor.Gray
+                };
+                
+                Console.ForegroundColor = color;
                 Console.WriteLine($"[{evt.Timestamp:HH:mm:ss}] {evt.ApplicationName} - {evt.ResourceType}");
+                Console.ResetColor();
             }
         }
         else
@@ -234,6 +277,7 @@ class Program
     static void Cleanup()
     {
         _eventMonitor?.StopMonitoring();
+        _resourceMonitor?.StopMonitoring();
         Console.WriteLine("Application shutting down...");
     }
 
