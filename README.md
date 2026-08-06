@@ -2,8 +2,6 @@
 
 A comprehensive Windows privacy monitoring tool that helps you track and control which applications access your sensitive resources like camera, microphone, and files.
 
-**Author:** Mohamed Dilshad KP
-
 ## Features
 
 - **Resource Access Monitoring**: Shows which apps access camera, microphone, and files in real-time
@@ -105,9 +103,6 @@ WindowsPrivacyInspector/
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-MIT License - see LICENSE file for details
 
 ## Disclaimer
 
@@ -115,5 +110,12 @@ This tool requires administrator privileges to function properly. Use responsibl
 
 ---
 
-**Author:** Mohamed Dilshad KP  
-**Repository:** [https://github.com/Dilshad-01/windows-privacy-inspector](https://github.com/Dilshad-01/windows-privacy-inspector) 
+## 👨‍💻 Author
+
+**Mohamed Dilshad KP**
+
+- GitHub: https://github.com/Dilshad-01
+- LinkedIn: https://www.linkedin.com/in/mdilshadkp
+- Website: www.dilshadkp.cloud
+
+If you found this project helpful, consider giving it a ⭐ on GitHub.
